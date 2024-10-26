@@ -14,8 +14,16 @@ class UserSignupSerializer(ModelSerializer):
         )
 
 
+class SocialSerializer(Serializer):
+    email = serializers.CharField(max_length=255, required=True)
+    password = serializers.CharField(max_length=255, required=False)
+    image = serializers.CharField(max_length=512, required=False)
+    first_name = serializers.CharField(max_length=255, required=False)
+    last_name = serializers.CharField(max_length=255, required=False)
+
+
 class UserSinginSerializer(Serializer):
     email = serializers.CharField(max_length=255, required=True)
-    password = serializers.CharField(max_length=255, required=True)
+    password = serializers.CharField(max_length=255, required=True, write_only=True)
     first_name = serializers.CharField(max_length=255, read_only=True)
     last_name = serializers.CharField(max_length=255, read_only=True)

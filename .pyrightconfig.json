@@ -1,6 +1,0 @@
-{
-  "exclude": ["migrations"],
-  "reportMissingImports": false,
-  "reportIndexIssue":false,
-  "reportOptionalSubscript":false
-}

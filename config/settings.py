@@ -13,10 +13,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 import os
 from pathlib import Path
 
-import django_stubs_ext
 from dotenv import load_dotenv
-
-django_stubs_ext.monkeypatch()
 
 load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.

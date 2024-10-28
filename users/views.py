@@ -1,11 +1,10 @@
 from uuid import uuid4
 
+from django.contrib.auth import authenticate, get_user_model
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.views import APIView, Response
 from rest_framework_simplejwt.tokens import RefreshToken
-
-from django.contrib.auth import authenticate, get_user_model
 
 from .serializers import SocialSerializer, UserSignupSerializer, UserSinginSerializer
 
@@ -24,7 +23,6 @@ class Signin(APIView):
             return Response(
                 {
                     "access": str(access),
-                    "refresh": str(refresh),
                     "email": UserSinginSerializer(user).data.get("email", ""),
                     "image": UserSinginSerializer(user).data.get("image", ""),
                     "first_name": UserSinginSerializer(user).data.get("first_name", ""),

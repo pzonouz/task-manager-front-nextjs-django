@@ -46,19 +46,42 @@ class Social(APIView):
         existing_user = (
             get_user_model().objects.filter(email=request.data["email"]).first()
         )
+        serializer = SocialSerializer(data=request.data)
         if existing_user is None:
             request.data["social"] = True
-            serializer = SocialSerializer(data=request.data)
             serializer.is_valid(raise_exception=True)
             serializer.validated_data["password"] = uuid4().hex
             user = get_user_model().objects.create_user(**serializer.validated_data)
             user.save()
-            return Response(status=200)
+            refresh = RefreshToken.for_user(user)
+            access = refresh.access_token
+            return Response(
+                {
+                    "access": str(access),
+                    "email": serializer.data.get("email", ""),
+                    "image": serializer.data.get("image", ""),
+                    "first_name": serializer.data.get("first_name", ""),
+                    "last_name": serializer.data.get("last_name", ""),
+                },
+                status=200,
+            )
         existing_user.social = True
-        existing_user.first_name = request.data["first_name"]
-        existing_user.last_name = request.data["last_name"]
+        existing_user.first_name = request.data.get("first_name", "")
+        existing_user.last_name = request.data.get("last_name", "")
+        serializer.is_valid(raise_exception=True)
         existing_user.save()
-        return Response(status=200)
+        refresh = RefreshToken.for_user(existing_user)
+        access = refresh.access_token
+        return Response(
+            {
+                "access": str(access),
+                "email": serializer.data.get("email", ""),
+                "image": serializer.data.get("image", ""),
+                "first_name": serializer.data.get("first_name", ""),
+                "last_name": serializer.data.get("last_name", ""),
+            },
+            status=200,
+        )
 
 
 class GetUser(APIView):

@@ -1,9 +1,13 @@
 from rest_framework import serializers
 
+from categories.serializers import CategorySerializer
 from tasks.models import Task
 
 
 class TaskSerializer(serializers.ModelSerializer):
+    category_full = CategorySerializer(source="category", read_only=True)
+    priority_full = CategorySerializer(source="priority", read_only=True)
+
     class Meta:
         model = Task
         fields = [
@@ -21,4 +25,6 @@ class TaskSerializer(serializers.ModelSerializer):
             "due_date",
             "status",
             "percentage",
+            "category_full",
+            "priority_full",
         ]

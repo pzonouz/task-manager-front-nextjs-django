@@ -44,7 +44,7 @@ class TasksViewset(ModelViewSet):
 class TaskCompleteView(CreateAPIView):
     def post(self, request, pk):
         task = Task.objects.get(id=pk)
-        task.completed = True
+        task.completed = not task.completed
         task.save()
         serializer = TaskSerializer(task)
         return Response(serializer.data)

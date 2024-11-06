@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "tags",
     "categories",
     "priorities",
+    "comments",
     "rest_framework_simplejwt",
     "django_filters",
 ]
